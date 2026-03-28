@@ -1,3 +1,4 @@
+
 const Input = document.getElementById('input');
 const AddBtn = document.getElementById('addBtn');
 const TodoList = document.getElementById('todoList');
@@ -15,7 +16,7 @@ function renderTodos(){
         const checkbox=document.createElement('input');
         checkbox.type='checkbox';
         checkbox.checked=todo.completed;// 每次重新渲染時，都要根據「資料」來決定這個框框「要不要打勾」
-        //監聽勾選功能(點擊時切換資料型態)
+        //監聽checkbox功能
         checkbox.addEventListener('change',()=>{
             todo.completed = checkbox.checked;//同步資料
             renderTodos();//重新渲染畫面，讓文字變成刪除線或恢復正常
@@ -27,6 +28,29 @@ function renderTodos(){
             span.style.textDecoration='line-through';//打勾就加刪除線
             span.style.color='gray';
         }
+        //編輯用的 input 框
+        const editInput = document.createElement('input');
+        editInput.type='text';
+        //編輯用的「儲存」按鈕
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = '儲存';
+        //修改按鈕
+        const editBtn = document.createElement('button');
+        editBtn.textContent = '修改';
+        //監聽修改功能
+        editBtn.addEventListener('click',()=>{
+            li.classList.add('editing');
+            editInput.value = todo.text;
+            editInput.focus();
+        })
+        //監聽儲存功能  
+        saveBtn.addEventListener('click',()=>{
+            const newText = editInput.value.trim();//取得輸入框的文字
+            if(newText=== ''){
+                return;}
+            todo.text = newText;//更新資料
+            renderTodos();//重新渲染畫面
+        })
         //刪除按鈕
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = '刪除';
@@ -35,15 +59,26 @@ function renderTodos(){
             todos.splice(index,1);//從陣列中刪除該項目
             renderTodos();//重新渲染畫面
         })
-        //把checkbox、文字、按鈕放到 li 裡
-        li.appendChild(checkbox);
-        li.appendChild(span);
-        li.appendChild(deleteBtn);
+        // 建立「顯示模式」的容器 
+        const viewModeDiv = document.createElement('div');
+        viewModeDiv.classList.add('view-mode');
+        viewModeDiv.appendChild(checkbox);
+        viewModeDiv.appendChild(span);
+        viewModeDiv.appendChild(editBtn);
+        viewModeDiv.appendChild(deleteBtn);
+        //// 建立「編輯模式」的容器
+        const editModeDiv = document.createElement('div');
+        editModeDiv.classList.add('edit-mode');
+        editModeDiv.appendChild(editInput);
+        editModeDiv.appendChild(saveBtn);
+        // 把兩個容器都放到 li 裡
+        li.appendChild(viewModeDiv);
+        li.appendChild(editModeDiv);
         //把 li 放到 ul 裡
         TodoList.appendChild(li);
     });
     }
-//新增待辦事項
+//新增待辦事項函式
 function addTodo() {
     const todoText = Input.value.trim();
     if(todoText ==='')
@@ -62,6 +97,7 @@ function addTodo() {
 AddBtn.addEventListener('click',()=>{
     addTodo();
 })
+//監聽鍵盤事件，按下 Enter 增加待辦事項
 Input.addEventListener('keydown',(e)=>{
     if(e.key==='Enter'){
         addTodo();

@@ -50,10 +50,7 @@ h1{
     margin-top: 20px;
 }
 #todoList li{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+    list-style: none;
     background: #f4f4f4;
     padding: 10px;
     border-radius: 6px;
@@ -63,10 +60,35 @@ h1{
     background: #e53e3e;
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
+    padding:5px 10px;
+    border-radius:6px;
+    cursor:pointer;
 }
 #todo-list button:hover {
     background: #c53030;
+}
+/* 當 li 有 .editing 這個類別 */
+li.editing .view-mode {
+    display:none; /* 隱藏原本的文字與修改鈕 */
+}
+
+li.editing .edit-mode {
+    display:flex; /* 顯示輸入框與儲存鈕 */
+    
+}
+.view-mode {
+    display:flex;
+    justify-content:space-between; 
+    align-items:center;
+    width: 100%; 
+}
+.edit-mode {
+    display:none;
+    gap:10px;
+    width:100%;
+}
+.edit-mode input{
+    flex-grow: 1;
+    padding:5px;
+    border-radius: 5px;
 }
