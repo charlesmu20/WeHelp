@@ -4,13 +4,31 @@ const AddBtn = document.getElementById('addBtn');
 const TodoList = document.getElementById('todoList');
 
 let todos=[];//建立空陣列來儲存待辦事項
-
+let currentFilter = "all";//目前的篩選條件，預設為 "all"
+//顯示哪些代辦事項的函式
+function filterTodos(){
+    if(currentFilter === "completed"){
+        return todos.filter(todo=>todo.completed===true);
+    }
+    if(currentFilter === "active"){
+        return todos.filter(todo=>todo.completed===false);
+    }
+    return todos;
+}
 //渲染待辦事項到畫面上
 function renderTodos(){
     // 1. 先清空目前的畫面，不然會重複渲染
     TodoList.innerHTML ='';// 
+    //顯示剩下幾個待辦事項
+    let count=todos.filter(todo=>!todo.completed).length;//計算未完成的待辦事項數量
+    const countElement=document.getElementById('todo-count');
+    if(count===0){
+        countElement.textContent='恭喜你，沒有待辦事項了！';
+    }else{
+        countElement.textContent=`剩下 ${count} 個待辦事項`;
+    }
     // 2. 跑迴圈把陣列裡的每個東西變成 <li>
-    todos.forEach((todo,index)=>{
+    filterTodos().forEach((todo,index)=>{
         const li = document.createElement('li');
         //checkbox框
         const checkbox=document.createElement('input');
@@ -56,7 +74,8 @@ function renderTodos(){
         deleteBtn.textContent = '刪除';
         //監聽刪除功能
         deleteBtn.addEventListener('click',()=>{
-            todos.splice(index,1);//從陣列中刪除該項目
+            let Index=todos.indexOf(todo);
+            todos.splice(Index,1);//從陣列中刪除該項目
             renderTodos();//重新渲染畫面
         })
         // 建立「顯示模式」的容器 
@@ -102,4 +121,20 @@ Input.addEventListener('keydown',(e)=>{
     if(e.key==='Enter'){
         addTodo();
     }
+})
+//篩選按鈕事件監聽
+const allFilterBtn = document.getElementById('filter-all');
+const activeFilterBtn = document.getElementById('filter-active');
+const completedFilterBtn = document.getElementById('filter-completed');
+allFilterBtn.addEventListener('click',()=>{
+    currentFilter='all';
+    renderTodos();
+})
+activeFilterBtn.addEventListener('click',()=>{
+    currentFilter='active';
+    renderTodos();
+})
+completedFilterBtn.addEventListener('click',()=>{
+    currentFilter='completed';
+    renderTodos();
 })

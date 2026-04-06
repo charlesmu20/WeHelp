@@ -92,3 +92,24 @@ li.editing .edit-mode {
     padding:5px;
     border-radius: 5px;
 }
+.filter-area{
+    display: flex;
+    justify-content: center;
+    gap:10px;
+}
+.filter-area button{
+    padding:10px 30px;
+    border-radius: 4px;
+    cursor:pointer;
+    border:none;
+    background-color: rgb(195, 158, 158);
+}
+.filter-area button:hover {
+    background: rgb(163, 162, 162);
+}
+#todo-count{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: rgb(93, 93, 119);
+}
