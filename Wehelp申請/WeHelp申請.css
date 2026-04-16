@@ -110,9 +110,6 @@ footer a{
     margin-right: 10px;
 }
 @media (max-width:1024px){
-    nav a{
-        font-size: 13px;
-    }
     main{
         padding:20px;
         width:92%;
@@ -134,8 +131,8 @@ footer a{
     }
     nav {
         justify-content: flex-start;
-        overflow-x: auto;          
-        white-space: nowrap;         
+        white-space: nowrap;      
+        overflow-x: auto;                
         -webkit-overflow-scrolling: touch;
     }
 }
