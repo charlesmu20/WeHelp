@@ -64,8 +64,8 @@ h1{
     border-radius:6px;
     cursor:pointer;
 }
-#todo-list button:hover {
-    background: #c53030;
+#todoList li button:hover { 
+    background: #c53030; 
 }
 /* 當 li 有 .editing 這個類別 */
 li.editing .view-mode {
@@ -106,6 +106,10 @@ li.editing .edit-mode {
 }
 .filter-area button:hover {
     background: rgb(163, 162, 162);
+}
+.filter-area button.active {
+    background-color: rgb(100, 100, 160);
+    color: white;
 }
 #todo-count{
     text-align: center;

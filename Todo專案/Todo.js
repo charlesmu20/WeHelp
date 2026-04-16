@@ -5,6 +5,20 @@ const TodoList = document.getElementById('todoList');
 
 let todos=[];//建立空陣列來儲存待辦事項
 let currentFilter = "all";//目前的篩選條件，預設為 "all"
+//LocalStorage 相關的函式
+function saveData(data){
+    localStorage.setItem('todos-list',JSON.stringify(data))
+}
+function loadData(){
+    const savedData=localStorage.getItem('todos-list');
+    if(savedData){
+        todos=JSON.parse(savedData);
+    }
+    else{
+        todos=[];
+    }
+    renderTodos();
+}
 //顯示哪些代辦事項的函式
 function filterTodos(){
     if(currentFilter === "completed"){
@@ -38,6 +52,7 @@ function renderTodos(){
         checkbox.addEventListener('change',()=>{
             todo.completed = checkbox.checked;//同步資料
             renderTodos();//重新渲染畫面，讓文字變成刪除線或恢復正常
+            saveData(todos);
         });
         //文字
         const span = document.createElement('span');
@@ -68,6 +83,7 @@ function renderTodos(){
                 return;}
             todo.text = newText;//更新資料
             renderTodos();//重新渲染畫面
+            saveData(todos);
         })
         //刪除按鈕
         const deleteBtn = document.createElement('button');
@@ -77,6 +93,7 @@ function renderTodos(){
             let Index=todos.indexOf(todo);
             todos.splice(Index,1);//從陣列中刪除該項目
             renderTodos();//重新渲染畫面
+            saveData(todos);
         })
         // 建立「顯示模式」的容器 
         const viewModeDiv = document.createElement('div');
@@ -111,6 +128,7 @@ function addTodo() {
     Input.value='';//清空輸入框
     Input.focus();//讓輸入框重新獲得焦點
     renderTodos();//重新渲染待辦事項
+    saveData(todos);
 }
 //按鈕事件監聽
 AddBtn.addEventListener('click',()=>{
@@ -126,15 +144,26 @@ Input.addEventListener('keydown',(e)=>{
 const allFilterBtn = document.getElementById('filter-all');
 const activeFilterBtn = document.getElementById('filter-active');
 const completedFilterBtn = document.getElementById('filter-completed');
+function setFilterButtonState(btn){
+    allFilterBtn.classList.remove('active');
+    activeFilterBtn.classList.remove('active');
+    completedFilterBtn.classList.remove('active');
+    btn.classList.add('active');
+}
 allFilterBtn.addEventListener('click',()=>{
     currentFilter='all';
+    setFilterButtonState(allFilterBtn);
     renderTodos();
 })
 activeFilterBtn.addEventListener('click',()=>{
     currentFilter='active';
+    setFilterButtonState(activeFilterBtn);
     renderTodos();
 })
 completedFilterBtn.addEventListener('click',()=>{
     currentFilter='completed';
+    setFilterButtonState(completedFilterBtn);
     renderTodos();
 })
+// 當瀏覽器把 HTML 跟 JS 都跑完後，立刻執行讀檔
+document.addEventListener('DOMContentLoaded', loadData);
