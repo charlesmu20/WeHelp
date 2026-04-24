@@ -57,15 +57,23 @@ h1{
     margin-bottom: 10px;
 }
 #todoList li button{
-    background: #e53e3e;
     color: white;
     border: none;
     padding:5px 10px;
     border-radius:6px;
     cursor:pointer;
 }
-#todoList li button:hover { 
-    background: #c53030; 
+.edit-btn {
+    background: #4a90e2;
+}
+.edit-btn:hover {
+    background: #357abd;
+}
+.delete-btn {
+    background: #e53e3e;
+}
+.delete-btn:hover {
+    background: #c53030;
 }
 /* 當 li 有 .editing 這個類別 */
 li.editing .view-mode {
@@ -117,3 +125,17 @@ li.editing .edit-mode {
     font-size: 14px;
     color: rgb(93, 93, 119);
 }
+#clearCompleted{
+    display: none;
+    margin-top:10px;
+    padding:8px 20px;
+    border-radius: 4px;
+    cursor:pointer;
+    background-color: #e53e3e;
+    color:white;
+    width: 100%;
+    border: none;
+}
+#clearCompleted:hover {
+    background: #c53030;
+}  
